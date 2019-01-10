@@ -32,11 +32,15 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         if (DatabaseUtils.queryNumEntries(db,DatabaseHelper.TABLE_USER) > 0) return;
         db.close();
+        // Add 3 testing users
+        //  USER0 with email USER0@USER0.email.com password is password
+        //  USER1 with email USER1@USER1.email.com password is password
+        //  USER2 with email USER2@USER2.email.com password is password
         int users_to_add = 3;
         for (int i = 0; i < users_to_add; i++ ) {
             String thisusername = "USER" + String.valueOf(i);
             String thisemail = thisusername + "@" + thisusername + ".email.com";
-            User u = new User(thisusername,thisemail,"password", new Long(i));
+            User u = new User(thisusername,thisemail,"password", Long.valueOf(i));
             databaseHelper.addUser(u);
         }
         logUsers();
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
      * Use some of the user methods
      */
     private void playWithUsers() {
+
         String logtag = "USERTESTING";
         String notauseremail = "notauser@noemail.com";
         String validuseremail = "USER2@USER2.email.com";
@@ -87,8 +92,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addSomePlayers() {
-        String logtag = "PLAYERTESTING";
 
+        // Only add some players if none exist
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        if (DatabaseUtils.queryNumEntries(db,DatabaseHelper.TABLE_PLAYERS) > 0) return;
+        db.close();
+        String logtag = "PLAYERTESTING";
 
         Player invalid = new Player();
         invalid.setPlayerName("Harold");
@@ -120,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
         /*
             May not add if user row with id = 1
          */
-
     }
 
     private void logUsers() {

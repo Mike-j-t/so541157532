@@ -46,6 +46,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ") " +
             ")";
 
+    //<<<<<<<<<< Note AUTOINCREMENT IS NOT NECESSARY SUGGEST TO NOT USE i.e. just have INTEGER PRIMARY KEY
+
 
     // Drop tables
 
@@ -89,11 +91,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_USER_NAME, user.getName());
         values.put(COLUMN_USER_EMAIL, user.getEmail());
         values.put(COLUMN_USER_PASSWORD, user.getPassword());
-        values.put(FOREIGN_PLAYER_ID, user.getForeignID());
+        values.put(FOREIGN_PLAYER_ID, user.getForeignID()); //<<<<<<<<< SUGGEST NOT INCLUDING THIS LINE BUT
 
         db.insert(TABLE_USER, null, values);
         db.close();
     }
+
+    /**
+     * NOTE RE BUT ABOVE
+     *
+     * Ideally you let SQLite autogenerate an id, rather than tell SQLite what it would be.
+     * 
+     * I also suggest to use COL_USER_ID whenever referring to the User_ID column as
+     *  a user doesn't have a foreign player id a user may have many players or none
+     *  so even though the resolution of the constants is the same it could be confusing
+     *
+     */
 
     // Adding a player to players table
 
